@@ -205,3 +205,4 @@ img.is-small { object-fit: contain; padding: 12% 14%; }
 .soon-tag { position: absolute; left: 12px; top: 12px; z-index: 1; color: #fff; }
 .tile-img video { position: absolute; inset: 0; transition: opacity .45s; }
 video.tile-alt { opacity: 0; }
+.ft-base a:hover { color: var(--ink); }
