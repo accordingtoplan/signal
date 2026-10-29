@@ -289,3 +289,5 @@ figure[data-wipe].is-in > :is(img, video) { scale: 1; }
   .is-bw img, .is-bw video { filter: grayscale(1); transition: filter .5s ease; }
   .is-bw a:hover img, .is-bw a:hover video, .is-bw figure:hover img, .is-bw figure:hover video { filter: none; }
 }
+.is-bw .spot { position: relative; }
+.is-bw .spot-img > :is(img, video) { animation: none; }
