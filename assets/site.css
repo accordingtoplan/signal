@@ -273,3 +273,4 @@ figure[data-wipe].is-in > :is(img, video) { scale: 1; }
 .w { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 .04em .14em; margin: 0 -.04em -.14em; }
 .w > span { display: inline-block; transform: translateY(115%); transition: transform 1s cubic-bezier(.2,.7,.2,1) calc(var(--i, 0) * 90ms + 80ms); }
 [data-lines].is-in .w > span { transform: none; }
+@media (min-width: 900px) { .ft-grid:not(:has(.ft-news)) { grid-template-columns: repeat(4, 1fr); } }
