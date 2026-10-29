@@ -275,5 +275,11 @@ figure[data-wipe].is-in > :is(img, video) { scale: 1; }
 /* Everyone at Signal: eight across on wide screens, coming-soon tiles in the same run */
 @media (min-width: 1200px) { .grid-all { grid-template-columns: repeat(8, 1fr); gap: 32px 8px; } .grid-all .tile-kind { font-size: 10px; } }
 
-/* Visit page: no rules between rows */
-.visit .t-facts > div, .t-sec-plain .t-list, .t-sec-plain .t-list li { border: 0; }
+/* Visit page and Coming up: no rules between rows */
+.visit .t-facts > div, .t-sec-plain .t-list, .t-sec-plain .t-list li,
+[data-events] .t-list, [data-events] .t-list li { border: 0; }
+
+/* Past events: a photo beside each row that has one */
+.t-list-img { grid-column: 2; aspect-ratio: 4 / 3; overflow: hidden; background: var(--line); }
+.t-list-img img { width: 100%; height: 100%; object-fit: cover; }
+@media (min-width: 700px) { .t-list li.has-img { grid-template-columns: 96px 1fr 220px; } .t-list-img { grid-column: 3; } }
