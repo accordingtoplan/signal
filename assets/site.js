@@ -1,12 +1,34 @@
 (() => {
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const hdr = document.querySelector('[data-hdr]');
   const hero = document.querySelector('.hero');
+
+  // Home: the hero wordmark rides up and shrinks into the header slot, then hands over to the header logo
+  const logo = still ? null : document.querySelector('.is-home .hero-logo');
+  const mark = hdr.querySelector('.hdr-logo');
+  if (logo) logo.classList.add('is-pinned');
+  const place = () => {
+    const end = hero.offsetHeight - 60;
+    const p = Math.min(Math.max(window.scrollY / end, 0), 1);
+    const k = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+    const y = hero.offsetHeight / 2 + (hdr.offsetHeight / 2 - hero.offsetHeight / 2) * k;
+    const s = 1 + (mark.offsetWidth / logo.offsetWidth - 1) * k;
+    logo.style.transform = `translate(-50%, calc(-50% + ${y}px)) scale(${s})`;
+    logo.classList.toggle('is-gone', hdr.classList.contains('is-solid'));
+  };
+
+  let ticking = false;
   const onScroll = () => {
     const limit = hero && document.body.classList.contains('is-home') ? hero.offsetHeight - 60 : 0;
     hdr.classList.toggle('is-solid', window.scrollY > limit);
+    if (logo) place();
+    ticking = false;
   };
   onScroll();
-  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('scroll', () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
+  }, { passive: true });
+  window.addEventListener('resize', onScroll);
 
   // Phone menu
   const btn = document.querySelector('[data-menu]');
@@ -20,11 +42,68 @@
     document.body.style.overflow = open ? 'hidden' : '';
   });
 
-  // Reveal on scroll
-  const io = new IntersectionObserver((es) => es.forEach((en) => {
-    if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
-  }), { rootMargin: '0px 0px -8% 0px' });
-  document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+  // Split headings into masked words, numbered by the line they sit on
+  const split = (el) => {
+    const words = [];
+    const walk = (node) => [...node.childNodes].forEach((n) => {
+      if (n.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach((t) => {
+          if (!t) return;
+          if (/^\s+$/.test(t)) { frag.append(t); return; }
+          const w = document.createElement('span');
+          const s = document.createElement('span');
+          w.className = 'w';
+          s.textContent = t;
+          w.append(s);
+          frag.append(w);
+          words.push(w);
+        });
+        n.replaceWith(frag);
+      } else if (n.nodeType === 1 && n.tagName !== 'BR' && !n.classList.contains('sr')) walk(n);
+    });
+    walk(el);
+    let line = -1, top = null;
+    words.forEach((w) => {
+      if (w.offsetTop !== top) { top = w.offsetTop; line++; }
+      w.style.setProperty('--i', line);
+    });
+    el.setAttribute('data-lines', '');
+  };
+  if (!still) {
+    document.querySelectorAll('.spot-name, .hero-t-name, .intro-t, .t-line, .visit-t, .sec-t').forEach(split);
+    document.querySelectorAll('.gal-img, .pair figure, .news-item figure, .tile-img, .visit-img')
+      .forEach((f) => f.setAttribute('data-wipe', ''));
+  }
+
+  // Reveal on scroll; things that arrive together go in a short stagger
+  const io = new IntersectionObserver((es) => {
+    let n = 0;
+    es.forEach((en) => {
+      if (!en.isIntersecting) return;
+      en.target.style.setProperty('--d', `${Math.min(n++, 5) * 90}ms`);
+      en.target.classList.add('is-in');
+      io.unobserve(en.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('[data-reveal], [data-lines], [data-wipe]').forEach((el) => io.observe(el));
+
+  // Page transitions: name the clicked photo so it grows into the tenant hero on the next page
+  let picked = null;
+  document.addEventListener('click', (ev) => {
+    const a = ev.target.closest('a.tile, a.spot');
+    const plain = ev.button === 0 && !ev.metaKey && !ev.ctrlKey && !ev.shiftKey && !ev.altKey;
+    picked = a && plain ? { path: a.pathname, fig: a.querySelector('figure') } : null;
+  });
+  window.addEventListener('pageswap', (ev) => {
+    const to = ev.activation && ev.activation.entry && new URL(ev.activation.entry.url).pathname;
+    if (!ev.viewTransition || !picked || to !== picked.path) return;
+    const fig = picked.fig;
+    fig.style.viewTransitionName = 'hero';
+    const clear = () => { fig.style.viewTransitionName = ''; };
+    ev.viewTransition.finished.then(clear, clear);
+  });
+  window.addEventListener('pageshow', () => { picked = null; });
 
   // Filter chips on the index grid
   const chips = document.querySelectorAll('[data-filter]');

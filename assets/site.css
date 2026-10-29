@@ -66,8 +66,8 @@ button, input { font: inherit; color: inherit; }
 /* Spotlights: one 2-up block per tenant */
 .spot { position: relative; display: grid; grid-template-columns: 1fr 1fr; height: 92svh; min-height: 480px; color: #fff; }
 .spot-img { height: 100%; }
-.spot-img img { transition: transform 1.4s cubic-bezier(.2,.6,.2,1); }
-.spot:hover .spot-img img { transform: scale(1.03); }
+.spot-img img { transition: scale 1.4s cubic-bezier(.2,.6,.2,1); }
+.spot:hover .spot-img img { scale: 1.03; }
 .spot-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(0,0,0,0) 55%, rgba(0,0,0,.38)); }
 .spot-cap { position: absolute; left: var(--pad); right: var(--pad); bottom: 22px; display: grid; gap: 4px; }
 .spot-name { font-size: clamp(40px, 8vw, 128px); font-weight: 500; letter-spacing: -.035em; line-height: .95; margin: 6px 0 4px; }
@@ -206,3 +206,38 @@ img.is-small { object-fit: contain; padding: 12% 14%; }
 .tile-img video { position: absolute; inset: 0; transition: opacity .45s; }
 video.tile-alt { opacity: 0; }
 .ft-base a:hover { color: var(--ink); }
+
+/* Motion. Everything below is off for reduced motion; site.js adds the hooks. */
+
+/* Page transitions: the clicked photo grows into the next page's hero */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+.hdr { view-transition-name: hdr; }
+.hero-t .hero-half:first-child { view-transition-name: hero; }
+::view-transition-group(*) { animation-duration: .7s; animation-timing-function: cubic-bezier(.7,0,.2,1); }
+::view-transition-old(hero), ::view-transition-new(hero) { height: 100%; object-fit: cover; overflow: hidden; }
+
+/* Hero wordmark rides up into the header */
+.hero-logo.is-pinned { position: fixed; top: 0; z-index: 51; transform-origin: 50% 50%; will-change: transform; transition: opacity .3s; }
+.hero-logo.is-gone { opacity: 0; }
+
+/* Spotlights stack: each one holds while the next slides over it */
+.spot { position: sticky; top: 0; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .spot-img > :is(img, video) { animation: spot-in linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+    @keyframes spot-in { from { transform: scale(1.18) translateY(-7%); } to { transform: none; } }
+  }
+}
+
+/* Photos wipe up from the bottom and settle from a slight zoom */
+figure[data-wipe] { clip-path: inset(100% 0 0 0); transition: clip-path 1.1s cubic-bezier(.7,0,.2,1) var(--d, 0ms); }
+figure[data-wipe] > :is(img, video) { scale: 1.14; transition: scale 1.6s cubic-bezier(.2,.6,.2,1) var(--d, 0ms), opacity .45s; }
+figure[data-wipe].is-in { clip-path: inset(0); }
+figure[data-wipe].is-in > :is(img, video) { scale: 1; }
+
+/* Headings rise line by line from behind a mask */
+.w { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 .04em .14em; margin: 0 -.04em -.14em; }
+.w > span { display: inline-block; transform: translateY(115%); transition: transform 1s cubic-bezier(.2,.7,.2,1) calc(var(--i, 0) * 90ms + 80ms); }
+[data-lines].is-in .w > span { transform: none; }
