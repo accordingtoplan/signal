@@ -190,11 +190,9 @@ button, input { font: inherit; color: inherit; }
 
 /* Footer */
 .ft { border-top: 1px solid var(--line); margin-top: 40px; }
-.ft-bar { display: grid; grid-template-columns: 1fr; border-bottom: 1px solid var(--line); }
-@media (min-width: 700px) { .ft-bar { grid-template-columns: 1fr 1fr; } .ft-bar a + a { border-left: 1px solid var(--line); } }
+.ft-bar { display: grid; grid-template-columns: 1fr; }
+@media (min-width: 700px) { .ft-bar { grid-template-columns: 1fr 1fr; } }
 .ft-bar a { padding: 18px var(--pad); font-size: 13px; }
-.ft-bar a + a { border-top: 1px solid var(--line); }
-@media (min-width: 700px) { .ft-bar a + a { border-top: 0; } }
 .ft-bar .lbl { color: var(--mute); margin-bottom: 4px; }
 .ft-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px 8px; padding: 36px var(--pad) 48px; }
 @media (min-width: 900px) { .ft-grid { grid-template-columns: repeat(4, 1fr) 1.6fr; } }
@@ -276,3 +274,6 @@ figure[data-wipe].is-in > :is(img, video) { scale: 1; }
 @media (min-width: 900px) { .ft-grid:not(:has(.ft-news)) { grid-template-columns: repeat(4, 1fr); } }
 /* Everyone at Signal: eight across on wide screens, coming-soon tiles in the same run */
 @media (min-width: 1200px) { .grid-all { grid-template-columns: repeat(8, 1fr); gap: 32px 8px; } .grid-all .tile-kind { font-size: 10px; } }
+
+/* Visit page: no rules between rows */
+.visit .t-facts > div, .t-sec-plain .t-list, .t-sec-plain .t-list li { border: 0; }
