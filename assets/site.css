@@ -189,7 +189,7 @@ button, input { font: inherit; color: inherit; }
 .map iframe { width: 100%; height: 60svh; min-height: 360px; border: 0; filter: grayscale(1) contrast(1.05); }
 
 /* Footer */
-.ft { border-top: 1px solid var(--line); margin-top: 40px; }
+.ft { --ink: #fff; --mute: rgba(255,255,255,.6); --line: rgba(255,255,255,.18); background: #1a1a1a; color: var(--ink); margin-top: 40px; }
 .ft-bar { display: grid; grid-template-columns: 1fr; }
 @media (min-width: 700px) { .ft-bar { grid-template-columns: 1fr 1fr; } }
 .ft-bar a { padding: 18px var(--pad); font-size: 13px; }
