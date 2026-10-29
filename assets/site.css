@@ -68,15 +68,16 @@ button, input { font: inherit; color: inherit; }
 .spot-img { height: 100%; }
 .spot-img img { transition: scale 1.4s cubic-bezier(.2,.6,.2,1); }
 .spot:hover .spot-img img { scale: 1.03; }
-.spot-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(0,0,0,0) 55%, rgba(0,0,0,.38)); }
-.spot-cap { position: absolute; left: var(--pad); right: var(--pad); bottom: 22px; display: grid; gap: 4px; }
+/* Caption sits at the top: the next spotlight slides up over this one from below */
+.spot-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,0) 48%); }
+.spot-cap { position: absolute; left: var(--pad); right: var(--pad); top: calc(var(--hdr) + 22px); display: grid; gap: 4px; }
 .spot-name { font-size: clamp(40px, 8vw, 128px); font-weight: 500; letter-spacing: -.035em; line-height: .95; margin: 6px 0 4px; }
 .spot-line { font-size: clamp(14px, 1.4vw, 17px); max-width: 520px; }
 .spot .more { margin-top: 6px; }
 .spot + .spot { margin-top: 2px; }
 @media (max-width: 599px) {
   .spot { grid-template-columns: 1fr; grid-template-rows: 62% 38%; height: 88svh; }
-  .spot-img:nth-child(2)::after { background: linear-gradient(rgba(0,0,0,.05), rgba(0,0,0,.55)); }
+  .spot-img:nth-child(2)::after { background: none; }
 }
 
 /* Index grid */
@@ -137,6 +138,37 @@ button, input { font: inherit; color: inherit; }
 .gal { display: grid; grid-template-columns: 1fr; gap: 8px; padding: 0 var(--pad); }
 @media (min-width: 700px) { .gal { grid-template-columns: repeat(2, 1fr); } .gal-3 { grid-template-columns: repeat(3, 1fr); } }
 .gal-img { aspect-ratio: 4 / 5; }
+.gal + .gal { margin-top: 8px; }
+@media (min-width: 700px) {
+  .gal-n1 { grid-template-columns: 1fr; }
+  .gal-n1 .gal-img { aspect-ratio: 16 / 9; }
+  .gal-n3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Tenant extras: specials and events, also the homepage list */
+.t-sec { display: grid; gap: 18px; padding: 64px var(--pad) 56px; }
+@media (min-width: 900px) { .t-sec { grid-template-columns: 4fr 7fr; gap: 8px; } }
+.t-list { list-style: none; border-bottom: 1px solid var(--line); }
+.t-list li { display: grid; grid-template-columns: 96px 1fr; gap: 12px; padding: 16px 0; border-top: 1px solid var(--line); }
+@media (min-width: 900px) { .t-list li { grid-template-columns: 160px 1fr; } }
+.t-list li[hidden] { display: none; }
+.t-list .lbl { color: var(--mute); padding-top: 4px; }
+.t-list-t { font-size: clamp(17px, 1.7vw, 22px); letter-spacing: -.01em; line-height: 1.2; margin-bottom: 4px; }
+.t-list-t a:hover, .t-list-who:hover { text-decoration: underline; text-underline-offset: 3px; }
+.t-list p:not(.t-list-t) { font-size: 14px; line-height: 1.45; max-width: 56ch; color: #444; }
+.t-list .t-list-who { color: var(--ink); padding: 0 0 4px; }
+.t-sec-home { border-top: 1px solid var(--line); margin-top: 40px; }
+
+/* Phone: bigger tap targets, tighter section rhythm */
+@media (max-width: 899px) {
+  .hdr-menu, .hdr-r a { padding: 13px 0; }
+  .ft-col { gap: 0; }
+  .ft-col a { padding: 7px 0; }
+  .chip { padding: 9px 12px; }
+  .t-sec { padding: 44px var(--pad) 36px; }
+  .t-body { padding: 48px var(--pad) 52px; }
+  .t-step a { padding: 18px var(--pad); }
+}
 .gal-3 { padding-bottom: 8px; }
 .t-step { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 64px; }
 .t-step a { padding: 20px var(--pad); font-size: clamp(18px, 2.2vw, 26px); letter-spacing: -.01em; }

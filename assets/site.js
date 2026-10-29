@@ -42,6 +42,13 @@
     document.body.style.overflow = open ? 'hidden' : '';
   });
 
+  // Events: drop dated ones once their day has passed, and the whole list if nothing is left
+  const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
+  document.querySelectorAll('[data-events]').forEach((sec) => {
+    sec.querySelectorAll('li[data-until]').forEach((li) => { li.hidden = li.dataset.until < today; });
+    sec.hidden = !sec.querySelector('li:not([hidden])');
+  });
+
   // Split headings into masked words, numbered by the line they sit on
   const split = (el) => {
     const words = [];
