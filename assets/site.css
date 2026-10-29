@@ -254,6 +254,7 @@ video.tile-alt { opacity: 0; }
 
 /* Spotlights stack: each one holds while the next slides over it */
 .spot { position: sticky; top: 0; }
+.spot.is-under { visibility: hidden; }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .spot-img > :is(img, video) { animation: spot-in linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }

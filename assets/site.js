@@ -17,10 +17,19 @@
     logo.classList.toggle('is-gone', hdr.classList.contains('is-solid'));
   };
 
+  // Stacked spotlights: hide each one once the next fully covers it, so the browser
+  // isn't painting a dozen full-screen layers at once (Chrome drops tiles and they flicker)
+  const spots = [...document.querySelectorAll('.spot')];
+  const cover = () => spots.forEach((s, i) => {
+    const n = spots[i + 1];
+    s.classList.toggle('is-under', !!n && n.getBoundingClientRect().top <= 0);
+  });
+
   let ticking = false;
   const onScroll = () => {
     const limit = hero && document.body.classList.contains('is-home') ? hero.offsetHeight - 60 : 0;
     hdr.classList.toggle('is-solid', window.scrollY > limit);
+    if (spots.length) cover();
     if (logo) place();
     ticking = false;
   };
