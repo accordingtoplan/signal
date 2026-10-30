@@ -47,6 +47,8 @@ button, input { font: inherit; color: inherit; }
 /* Hero: two full-height halves, wordmark across both */
 .hero { position: relative; display: grid; grid-template-columns: 1fr 1fr; height: 100svh; min-height: 520px; color: #fff; }
 .hero-half { height: 100%; }
+/* Video and courtyard swap sides at random on each load (set inline in the hero) */
+.hero.is-flip .hero-half:first-child { order: 2; }
 .hero-half figcaption { position: absolute; top: calc(var(--hdr) + 4px); left: var(--pad); text-shadow: 0 0 12px rgba(0,0,0,.25); }
 .hero-half::after { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(0,0,0,.18), rgba(0,0,0,0) 30%, rgba(0,0,0,0) 70%, rgba(0,0,0,.22)); pointer-events: none; }
 .hero-logo { position: absolute; left: 50%; top: 50%; width: min(86vw, 1200px); transform: translate(-50%, -50%); pointer-events: none; filter: drop-shadow(0 0 30px rgba(0,0,0,.15)); }
@@ -56,6 +58,8 @@ button, input { font: inherit; color: inherit; }
   .hero { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
   .hero-foot span:last-child { display: none; }
   .hero-half:nth-child(2) figcaption { top: 10px; }
+  .hero.is-flip .hero-half:nth-child(2) figcaption { top: calc(var(--hdr) + 4px); }
+  .hero.is-flip .hero-half:first-child figcaption { top: 10px; }
 }
 
 /* Intro */
