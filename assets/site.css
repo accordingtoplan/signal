@@ -57,9 +57,9 @@ button, input { font: inherit; color: inherit; }
 @media (max-width: 599px) {
   .hero { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
   .hero-foot span:last-child { display: none; }
-  .hero-half:nth-child(2) figcaption { top: 10px; }
-  .hero.is-flip .hero-half:nth-child(2) figcaption { top: calc(var(--hdr) + 4px); }
-  .hero.is-flip .hero-half:first-child figcaption { top: 10px; }
+  /* Lower half: caption sits just above the hero foot, clear of the wordmark on the seam */
+  .hero-half:nth-child(2) figcaption, .hero.is-flip .hero-half:first-child figcaption { top: auto; bottom: 40px; }
+  .hero.is-flip .hero-half:nth-child(2) figcaption { top: calc(var(--hdr) + 4px); bottom: auto; }
 }
 
 /* Intro */
