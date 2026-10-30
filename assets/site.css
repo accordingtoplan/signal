@@ -1,12 +1,18 @@
+@font-face { font-family: 'PP Air Mono'; src: url(PPAir-MediumMono.otf) format('opentype'); font-weight: 400; font-display: swap; }
+
 :root {
-  --bg: #fff;
-  --ink: #111;
-  --mute: #6f6f6f;
-  --line: #e4e4e4;
-  --tint: #f2f1ee;
+  --bg: #f6f5f3;
+  --ink: #16170f;
+  --mute: #6d6e62;
+  --line: #dddbd3;
+  --tint: #ecebe6;
+  --forest: #132f0c;
+  --moss: #334b2a;
+  --lime: #d6edb9;
   --pad: 16px;
   --hdr: 44px;
   --f: 'Inter Tight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --mono: 'PP Air Mono', ui-monospace, Menlo, monospace;
   --s: 12px;
   color-scheme: light;
 }
@@ -293,3 +299,24 @@ figure[data-wipe].is-in > :is(img, video) { scale: 1; }
 .t-list-img img { width: 100%; height: 100%; object-fit: cover; }
 @media (min-width: 700px) { .t-list li.has-img { grid-template-columns: 96px 1fr 220px; } .t-list-img { grid-column: 3; } }
 
+/* Brand: PP Air Mono for labels and lists */
+.lbl, .tile-kind, .chip, .hdr-links a, .hdr-r a, .hdr-menu, .hero-foot, .drawer-t span,
+.t-facts dt, .ft-col a, .ft-base, .ft-news button, .more, .soon-tag, .hero figcaption {
+  font-family: var(--mono);
+  letter-spacing: .02em;
+}
+.lbl, .tile-kind, .t-facts dt, .hero-foot, .chip { font-size: 11px; }
+.hdr-links a, .hdr-r a, .hdr-menu { font-size: 11px; text-transform: uppercase; }
+.ft-col a { font-size: 12px; text-transform: uppercase; line-height: 1.7; }
+
+/* Brand: forest green sections on the off-white ground */
+.intro { background: var(--forest); color: #fff; max-width: none; padding-block: clamp(72px, 12vw, 170px); }
+.intro[data-reveal] { opacity: 1; transform: none; }
+.intro .lbl, .intro .more { color: var(--lime); }
+.ft { --mute: var(--lime); --line: rgba(214,237,185,.22); background: var(--forest); }
+.ft-news-row { border-bottom-color: var(--lime); }
+.t-step a:hover { background: var(--moss); color: #fff; }
+.t-step a:hover .lbl { color: var(--lime); }
+
+/* The building header sits on white walls, so its title is dark */
+.hero-word { color: var(--forest); filter: none; }
