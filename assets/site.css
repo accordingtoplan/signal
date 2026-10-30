@@ -179,6 +179,10 @@ button, input { font: inherit; color: inherit; }
 .t-step a:last-child { text-align: right; border-left: 1px solid var(--line); }
 .t-step .lbl { color: var(--mute); margin-bottom: 4px; }
 .t-step a:hover { background: var(--tint); }
+/* Tenant pages: no rules between rows, no numbering, just type and space */
+.is-tenant .t-facts > div, .is-tenant .t-list, .is-tenant .t-list li, .is-tenant .t-step, .is-tenant .t-step a { border: 0; }
+.is-tenant .t-facts > div { padding: 7px 0; }
+.is-tenant .t-sec:not([data-events]) .t-list li { display: block; padding: 0 0 22px; }
 
 /* Building */
 .spot-static { cursor: default; }
