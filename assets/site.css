@@ -320,3 +320,8 @@ figure[data-wipe].is-in > :is(img, video) { scale: 1; }
 
 /* The building header sits on white walls, so its title is dark */
 .hero-word { color: var(--forest); filter: none; }
+
+/* The address always links to Google Maps */
+a.addr:hover { text-decoration: underline; text-underline-offset: 3px; }
+.hero-foot { z-index: 2; pointer-events: none; }
+.hero-foot a { pointer-events: auto; }
